@@ -7,35 +7,13 @@ type Page = "login" | "register" | "forgotPassword";
 export default function AuthPages() {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState<Page>("login");
-  const handleLogin = async (e: React.FormEvent) => {
+
+  const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-  
-    const email = (document.querySelector('input[type="email"]') as HTMLInputElement).value;
-    const password = (document.querySelector('input[type="password"]') as HTMLInputElement).value;
-  
-    try {
-      const response = await fetch("http://127.0.0.1:8080/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-  
-      const data = await response.json();
-  
-      if (response.ok) {
-        localStorage.setItem("token", data.token); // ✅ Store JWT token
-        window.dispatchEvent(new Event("authChange")); // ✅ Notify app
-        navigate("/dashboard"); // ✅ Redirect to Dashboard
-      } else {
-        alert(data.error); // Show error message
-      }
-    } catch (error) {
-      console.error("Login Error:", error);
-    }
+    localStorage.setItem("isAuthenticated", "true"); // ✅ Store auth state
+    navigate("/dashboard"); // ✅ Redirect to Dashboard
   };
-  
-  
-  
+
   const handleForgotPassword = (e: React.FormEvent) => {
     e.preventDefault();
     alert("Reset link sent! (Mock function)"); // ✅ Simulate email sending
