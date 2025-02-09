@@ -18,11 +18,13 @@ function App() {
 
 function AppContent() {
   const location = useLocation();
-  const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem("token"));
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    localStorage.getItem("isAuthenticated") === "true"
+  );
 
   useEffect(() => {
     const handleAuthChange = () => {
-      setIsAuthenticated(!!localStorage.getItem("token")); // ✅ Use JWT token
+      setIsAuthenticated(localStorage.getItem("isAuthenticated") === "true");
     };
 
     window.addEventListener("authChange", handleAuthChange);
